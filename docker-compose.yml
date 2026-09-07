@@ -39,7 +39,7 @@ services:
         condition: service_healthy
 
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
 
       ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
 

@@ -263,11 +263,6 @@ namespace AgentMonitorAPI
                 app.UseSwaggerUI();
             }
 
-            if (!app.Environment.IsDevelopment())
-            {
-                app.UseHttpsRedirection();
-            }
-
             app.UseAuthentication();
 
             app.UseAuthorization();
