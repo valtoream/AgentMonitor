@@ -1,0 +1,55 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build output
+bin/
+obj/
+out/
+
+# .NET local secrets / local settings
+appsettings.Local.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Node / Vite
+node_modules/
+dist/
+.vite/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Test results
+TestResults/
+coverage/
+coverage.*
+
+# NuGet
+*.nupkg
+packages/
+
+# Publish output
+publish/
+
+# Agent local/runtime data
+agent.json
+
+# Installer build output
+*.msi
+*.wixpdb

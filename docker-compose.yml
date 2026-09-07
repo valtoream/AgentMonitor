@@ -1,0 +1,73 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: agentmonitor-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    volumes:
+      - agentmonitor-mysql-data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root -p$${MYSQL_ROOT_PASSWORD}"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+
+  api:
+    build:
+      context: .
+      dockerfile: AgentMonitorAPI/Dockerfile
+
+    container_name: agentmonitor-api
+    restart: unless-stopped
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ConnectionStrings__DefaultConnection: "Server=mysql;Port=3306;Database=${MYSQL_DATABASE};User=${MYSQL_USER};Password=${MYSQL_PASSWORD};"
+
+      Jwt__Issuer: ${JWT_ISSUER}
+      Jwt__Audience: ${JWT_AUDIENCE}
+      Jwt__Key: ${JWT_KEY}
+
+      InitialAdmin__Username: ${INITIAL_ADMIN_USERNAME}
+      InitialAdmin__Password: ${INITIAL_ADMIN_PASSWORD}
+
+    ports:
+      - "5029:8080"
+
+
+  dashboard:
+    build:
+      context: ./AgentMonitor.Dashboard
+      dockerfile: Dockerfile
+
+    container_name: agentmonitor-dashboard
+    restart: unless-stopped
+
+    depends_on:
+      - api
+
+    ports:
+      - "5173:80"
+
+
+volumes:
+  agentmonitor-mysql-data:

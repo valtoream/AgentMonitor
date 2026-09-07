@@ -1,0 +1,138 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<Fragment>
+
+		<UI Id="AgentMonitorUI">
+
+			<TextStyle
+				Id="WixUI_Font_Normal"
+				FaceName="Tahoma"
+				Size="8" />
+
+			<TextStyle
+				Id="WixUI_Font_Bigger"
+				FaceName="Tahoma"
+				Size="12" />
+
+			<TextStyle
+				Id="WixUI_Font_Title"
+				FaceName="Tahoma"
+				Size="9"
+				Bold="yes" />
+
+			<Property
+				Id="DefaultUIFont"
+				Value="WixUI_Font_Normal" />
+
+			<DialogRef Id="CancelDlg" />
+			<DialogRef Id="ErrorDlg" />
+			<DialogRef Id="FatalError" />
+			<DialogRef Id="FilesInUse" />
+			<DialogRef Id="MsiRMFilesInUse" />
+			<DialogRef Id="PrepareDlg" />
+			<DialogRef Id="ProgressDlg" />
+			<DialogRef Id="ResumeDlg" />
+			<DialogRef Id="UserExit" />
+
+			<Publish
+				Dialog="ExitDialog"
+				Control="Finish"
+				Event="EndDialog"
+				Value="Return"
+				Order="999" />
+
+			<!-- First installation -->
+			<Publish
+				Dialog="WelcomeDlg"
+				Control="Next"
+				Event="NewDialog"
+				Value="ServerConfigDlg"
+				Condition="NOT Installed" />
+
+			<Publish
+				Dialog="ServerConfigDlg"
+				Control="Back"
+				Event="NewDialog"
+				Value="WelcomeDlg" />
+
+			<Publish
+				Dialog="ServerConfigDlg"
+				Control="Next"
+				Event="NewDialog"
+				Value="VerifyReadyDlg"
+				Condition="SERVERIP AND SERVERPORT" />
+
+			<Publish
+				Dialog="ServerConfigDlg"
+				Control="Cancel"
+				Event="SpawnDialog"
+				Value="CancelDlg" />
+
+			<Publish
+				Dialog="VerifyReadyDlg"
+				Control="Back"
+				Event="NewDialog"
+				Value="ServerConfigDlg"
+				Order="1"
+				Condition="NOT Installed" />
+
+			<!-- Patch -->
+			<Publish
+				Dialog="WelcomeDlg"
+				Control="Next"
+				Event="NewDialog"
+				Value="VerifyReadyDlg"
+				Condition="Installed AND PATCH" />
+
+			<Publish
+				Dialog="VerifyReadyDlg"
+				Control="Back"
+				Event="NewDialog"
+				Value="WelcomeDlg"
+				Order="2"
+				Condition="Installed AND PATCH" />
+
+			<!-- Maintenance -->
+			<Publish
+				Dialog="MaintenanceWelcomeDlg"
+				Control="Next"
+				Event="NewDialog"
+				Value="MaintenanceTypeDlg" />
+
+			<Publish
+				Dialog="MaintenanceTypeDlg"
+				Control="RepairButton"
+				Event="NewDialog"
+				Value="VerifyReadyDlg" />
+
+			<Publish
+				Dialog="MaintenanceTypeDlg"
+				Control="RemoveButton"
+				Event="NewDialog"
+				Value="VerifyReadyDlg" />
+
+			<Publish
+				Dialog="MaintenanceTypeDlg"
+				Control="Back"
+				Event="NewDialog"
+				Value="MaintenanceWelcomeDlg" />
+
+			<Publish
+				Dialog="VerifyReadyDlg"
+				Control="Back"
+				Event="NewDialog"
+				Value="MaintenanceTypeDlg"
+				Order="2"
+				Condition="Installed AND NOT PATCH" />
+
+			<Property
+				Id="ARPNOMODIFY"
+				Value="1" />
+
+		</UI>
+
+		<UIRef Id="WixUI_Common" />
+
+	</Fragment>
+
+</Wix>

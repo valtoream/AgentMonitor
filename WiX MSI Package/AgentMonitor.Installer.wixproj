@@ -1,0 +1,13 @@
+﻿<Project Sdk="WixToolset.Sdk/7.0.0">
+  <PropertyGroup>
+    <AcceptEula>wix7</AcceptEula>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="7.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+	  <ProjectReference
+	   Include="..\AgentMonitor.Agent\AgentMonitor.Agent.csproj"
+	   Publish="true" />
+  </ItemGroup>
+</Project>

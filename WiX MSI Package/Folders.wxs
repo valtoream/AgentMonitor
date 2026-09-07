@@ -1,0 +1,21 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<Fragment>
+
+		<!-- Agent application files -->
+		<StandardDirectory Id="ProgramFiles64Folder">
+			<Directory
+				Id="INSTALLFOLDER"
+				Name="AgentMonitor" />
+		</StandardDirectory>
+
+		<!-- Agent runtime data -->
+		<StandardDirectory Id="CommonAppDataFolder">
+			<Directory
+				Id="AGENTDATADIR"
+				Name="AgentMonitor" />
+		</StandardDirectory>
+
+	</Fragment>
+
+</Wix>

@@ -1,0 +1,103 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<Fragment>
+
+		<ComponentGroup
+			Id="AgentComponents"
+			Directory="INSTALLFOLDER">
+
+			<!-- Published Agent files -->
+			<Files Include="!(bindpath.AgentMonitor.Agent)\**">
+
+				<Exclude
+					Files="!(bindpath.AgentMonitor.Agent)\AgentMonitor.Agent.exe" />
+
+				<Exclude
+					Files="!(bindpath.AgentMonitor.Agent)\**\*.pdb" />
+
+			</Files>
+
+			<!-- Agent executable, Registry configuration and Windows Service -->
+			<Component
+				Id="AgentServiceComponent"
+				Guid="*"
+				Bitness="always64">
+
+				<File
+					Id="AgentServiceExe"
+					Source="!(bindpath.AgentMonitor.Agent)\AgentMonitor.Agent.exe"
+					KeyPath="yes" />
+
+				<RegistryValue
+					Root="HKLM"
+					Key="SOFTWARE\AgentMonitor"
+					Name="ServerIp"
+					Type="string"
+					Value="[SERVERIP]" />
+
+				<RegistryValue
+					Root="HKLM"
+					Key="SOFTWARE\AgentMonitor"
+					Name="ServerPort"
+					Type="string"
+					Value="[SERVERPORT]" />
+
+				<RegistryValue
+					Root="HKLM"
+					Key="SOFTWARE\AgentMonitor"
+					Name="ServerUrl"
+					Type="string"
+					Value="http://[SERVERIP]:[SERVERPORT]" />
+
+				<ServiceInstall
+					Id="AgentMonitorServiceInstaller"
+					Name="AgentMonitor"
+					DisplayName="Agent Monitor"
+					Description="AgentMonitor system monitoring service."
+					Type="ownProcess"
+					Start="auto"
+					ErrorControl="normal"
+					Account="LocalSystem" />
+
+				<ServiceControl
+					Id="AgentMonitorServiceControl"
+					Name="AgentMonitor"
+					Start="install"
+					Stop="both"
+					Remove="uninstall"
+					Wait="yes" />
+
+			</Component>
+
+			<!-- Remove runtime Agent data on full uninstall -->
+			<Component
+				Id="AgentDataCleanupComponent"
+				Directory="AGENTDATADIR"
+				Guid="*"
+				Bitness="always64">
+
+				<RegistryValue
+					Root="HKLM"
+					Key="SOFTWARE\AgentMonitor"
+					Name="DataCleanupMarker"
+					Type="integer"
+					Value="1"
+					KeyPath="yes" />
+
+				<RemoveFile
+					Id="RemoveAgentDataFiles"
+					Name="*"
+					On="uninstall" />
+
+				<RemoveFolder
+					Id="RemoveAgentDataFolder"
+					Directory="AGENTDATADIR"
+					On="uninstall" />
+
+			</Component>
+
+		</ComponentGroup>
+
+	</Fragment>
+
+</Wix>

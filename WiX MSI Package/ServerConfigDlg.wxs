@@ -1,0 +1,130 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<Fragment>
+		<UI>
+
+			<Dialog
+				Id="ServerConfigDlg"
+				Width="370"
+				Height="270"
+				Title="[ProductName] Setup">
+
+				<Control
+					Id="Title"
+					Type="Text"
+					X="15"
+					Y="6"
+					Width="340"
+					Height="15"
+					Transparent="yes"
+					NoPrefix="yes"
+					Text="{\WixUI_Font_Title}Server Configuration" />
+
+				<Control
+					Id="Description"
+					Type="Text"
+					X="25"
+					Y="23"
+					Width="320"
+					Height="20"
+					Transparent="yes"
+					NoPrefix="yes"
+					Text="Enter the IP address and port of the AgentMonitor server." />
+
+				<Control
+					Id="BannerLine"
+					Type="Line"
+					X="0"
+					Y="44"
+					Width="370"
+					Height="0" />
+
+				<Control
+					Id="ServerIpLabel"
+					Type="Text"
+					X="25"
+					Y="75"
+					Width="100"
+					Height="15"
+					Text="Server IP address:" />
+
+				<Control
+					Id="ServerIpEdit"
+					Type="Edit"
+					X="130"
+					Y="72"
+					Width="180"
+					Height="18"
+					Property="SERVERIP" />
+
+				<Control
+					Id="ServerPortLabel"
+					Type="Text"
+					X="25"
+					Y="110"
+					Width="100"
+					Height="15"
+					Text="Server port:" />
+
+				<Control
+					Id="ServerPortEdit"
+					Type="Edit"
+					X="130"
+					Y="107"
+					Width="80"
+					Height="18"
+					Property="SERVERPORT"
+					Integer="yes" />
+
+				<Control
+					Id="ServerUrlPreview"
+					Type="Text"
+					X="25"
+					Y="150"
+					Width="320"
+					Height="20"
+					Text="Agent will connect to: http://[SERVERIP]:[SERVERPORT]" />
+
+				<Control
+					Id="BottomLine"
+					Type="Line"
+					X="0"
+					Y="234"
+					Width="370"
+					Height="0" />
+
+				<Control
+					Id="Back"
+					Type="PushButton"
+					X="180"
+					Y="243"
+					Width="56"
+					Height="17"
+					Text="&amp;Back" />
+
+				<Control
+					Id="Next"
+					Type="PushButton"
+					X="236"
+					Y="243"
+					Width="56"
+					Height="17"
+					Default="yes"
+					Text="&amp;Next" />
+
+				<Control
+					Id="Cancel"
+					Type="PushButton"
+					X="304"
+					Y="243"
+					Width="56"
+					Height="17"
+					Cancel="yes"
+					Text="Cancel" />
+
+			</Dialog>
+
+		</UI>
+	</Fragment>
+
+</Wix>

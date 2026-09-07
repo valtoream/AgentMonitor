@@ -1,0 +1,32 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+
+	<Package
+		Name="AgentMonitor Agent"
+		Manufacturer="AgentMonitor"
+		Version="1.0.0"
+		UpgradeCode="8E93AB4E-17E3-4B9E-9B53-53A0D1D52977"
+		Scope="perMachine">
+
+		<MajorUpgrade
+			DowngradeErrorMessage="!(loc.DowngradeError)" />
+
+		<MediaTemplate EmbedCab="yes" />
+
+		<Property
+			Id="SERVERIP"
+			Value="192.168.31.100"
+			Secure="yes" />
+
+		<Property
+			Id="SERVERPORT"
+			Value="5029"
+			Secure="yes" />
+
+		<UIRef Id="AgentMonitorUI" />
+
+		<Feature Id="Main">
+			<ComponentGroupRef Id="AgentComponents" />
+		</Feature>
+	</Package>
+
+</Wix>
