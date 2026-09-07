@@ -26,9 +26,6 @@ namespace AgentMonitorAPI
 {
     public class Program
     {
-        private const string DashboardCorsPolicy =
-            "DashboardCorsPolicy";
-
         private const string DashboardJwtScheme =
             "DashboardJwt";
 
@@ -39,33 +36,6 @@ namespace AgentMonitorAPI
 
             // Controllers
             builder.Services.AddControllers();
-
-            // CORS for React dashboard
-           
-            string[] dashboardAllowedOrigins =
-                builder.Configuration
-                    .GetSection("Dashboard:AllowedOrigins")
-                    .Get<string[]>()
-                ?? Array.Empty<string>();
-
-            if (dashboardAllowedOrigins.Length == 0)
-            {
-                throw new InvalidOperationException(
-                    "Dashboard allowed origins are not configured.");
-            }
-
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy(
-                    DashboardCorsPolicy,
-                    policy =>
-                    {
-                        policy
-                            .WithOrigins(dashboardAllowedOrigins)
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-            });
 
             // Database
             string connectionString =
@@ -297,9 +267,6 @@ namespace AgentMonitorAPI
             {
                 app.UseHttpsRedirection();
             }
-
-            app.UseCors(
-                DashboardCorsPolicy);
 
             app.UseAuthentication();
 
